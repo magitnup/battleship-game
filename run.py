@@ -9,7 +9,10 @@
 # decided on hit, miss, comp (completed) for clearer understanding
 # ships ... boats... ye...
 # taken = so boats don't share the same fields on the board
-#will add 1 or 2 to the different variables as to differentiate between board 1 and board 2
+# will add 1 or 2 to the different variables as to differentiate between board 1 and board 2
+# realized that I needed tactics for the engine to not only randomly guess every turn
+# credits to my brother for hinting me in the right direction of how
+# * let engine continue guessing near successful hits
 
 from random import randrange
 import random
@@ -91,6 +94,49 @@ def check_shot(shot,ships,hit,miss,comp):
         miss.append(shot)
                  
     return ships,hit,miss,comp,missed
+
+def calc_tactics(shot,tactics,guesses,hit):
+    """
+    calculates the tactics for the given shot of the engine
+    """
+    # Credits to my brother for explaining to me how it's done, he's probably my best teacher
+    # would have to revisit the course to see if I can figure this out in a better way (but time troubles)
+    temp = []
+    if len(tactics) < 1:
+        temp = [shot-1,shot+1,shot-10,shot+10]
+    else:
+        if shot-1 in hit:
+            temp = [shot+1]
+            for num in [2,3,4,5,6,7,8]:
+                if shot-num not in hit:
+                    temp.append(shot-num) 
+                    break
+        elif shot+1 in hit:
+            temp = [shot-1]
+            for num in [2,3,4,5,6,7,8]:
+                if shot+num not in hit:
+                    temp.append(shot+num) 
+                    break
+        if shot-10 in hit:
+            temp = [shot+10]
+            for num in [20,30,40,50,60,70,80]:
+                if shot-num not in hit:
+                    temp.append(shot-num) 
+                    break
+        elif shot+10 in hit:
+            temp = [shot-10]
+            for num in [20,30,40,50,60,70,80]:
+                if shot+num not in hit:
+                    temp.append(shot+num) 
+                    break
+    #tactics longer
+    cand =[]
+    for i in range(len(temp)):
+        if temp[i] not in guesses and temp[i] < 100 and temp[i] > -1:
+            cand.append(temp[i])
+    random.shuffle(cand)
+     
+    return cand
 
 def check_ok(boat,taken):
     """

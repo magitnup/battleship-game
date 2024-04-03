@@ -54,7 +54,7 @@ def get_ship(long,taken):
         #ask the user to enter numbers
         print("enter your ship of length ",long)
         for i in range(long):
-            boat_num = input("please enter a number")
+            boat_num = input("please enter a number\n")
             ship.append(int(boat_num))       
         ship = check_ok(ship,taken)
         if ship[0] != -1:
@@ -249,7 +249,7 @@ def get_shot(guesses):
     ok = "n"
     while ok == "n":
         try:
-            shot = input("please enter your guess")
+            shot = input("please enter your guess\n")
             shot = int(shot)
             if shot < 0 or shot > 99:
                 print("incorrect number, please try again")

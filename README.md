@@ -2,6 +2,8 @@
 
 ### Magitnups battleship is a Python terminal game, which runs in the Code Institute mock terminal of Heroku. Users will battle against it out against their own PC and for once maybe actually win to vent some frustrations.<br>
 
+- You can try it right away! [Magitnups Battleships](https://battleship-game-magitnup-6d82c8e18715.herokuapp.com)
+
 ### How to play
 
 ---
@@ -33,3 +35,36 @@ Whenever a ship gets hit, it'll will be marked by an "o", the last hit sinking t
 - Notification of sunken ship via "s"
 
   ![sunken ship](sinking_enemy_ship.png)
+
+  ## Testing
+
+  I have manually tested by doing the following:
+
+  - Passed Code through a PEP8 linter and had no major problems
+    Problems: - 22: E302 expected 2 blank lines, found 1 - 122: E302 expected 2 blank lines, found 1 - 152: E722 do not use bare 'except' - 268: E722 do not use bare 'except' - 305: E115 expected an indented block (comment) - 308: E501 line too long (87 > 79 characters) - 317: E501 line too long (87 > 79 characters)
+    <br>
+  - When trying to fix lines 308 & 317 there was a bug happening that caused the user to play on the same board as the PC, even though two boards where shown.
+  - Tried giving invalid input: as intended: Error message
+  - Tested the application locally and over the Code Institute Heroku terminal
+
+### Bugs
+
+    Mostly resolved (like mentioned the bug with the same board)
+
+### Validator testing
+
+    * the above mentioned returns
+
+## Deployment
+
+    * Fork or clone this repository
+    * Create a new Heroku app
+    * Set the buildbacks to Python and NodeJS in this order
+    * Link Heroku app to repository
+    * Click on deploy
+
+## Credits
+
+    * Code Institute deployment terminal
+    * [Knowledge Mavens](https://www.youtube.com/watch?v=tF1WRCrd_HQ) for inspiration, no code taken directly
+    * My Brother for extensive help, especially with tactics of the PC solving the battleship board

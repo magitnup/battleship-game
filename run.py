@@ -8,6 +8,9 @@
 # boards are 10x10 -> input 33 = row 3 column 3 starting with 0 - 9 for each
 # decided on hit, miss, comp (completed) for clearer understanding
 
+from random import randrange
+import random
+
 def get_shot(guesses):
     """
     checks for validity of the given variables and returns if necessary
@@ -48,12 +51,13 @@ def show_board(hit,miss,comp):
             place = place + 1
              
         print(x," ",row)
- 
- def check_shot(shot,ships,hit,miss,comp):
-     """
+        
+
+def check_shot(shot,ships,hit,miss,comp):
+    """
      Checks if the shot is in the ships and returns the ships, hit, miss, comp, missed
      starts by checking if missed, because the chance of missing is the highest, followed by hit and completed
-     """
+    """
     missed = 0
     for i in range(len(ships)):      
         if shot in ships[i]:
@@ -68,3 +72,28 @@ def show_board(hit,miss,comp):
         miss.append(shot)
                  
     return ships,hit,miss,comp,missed
+
+
+
+def create_boats(taken,boats):
+    """
+    creates a list of boats
+    starting with position (anywhere from 00 to 99)
+    to length and direction 0-4 for a 5 field ship and 0-1 for a 2 field ship
+    planning for 6 boats per fleet/player/engine
+    2 big ones 4 & 5 and 4 smaller ones with 3 & 2 twice each
+    """
+    ships = []
+    #battleships = [5,4,3,3,2,2]
+    for b in boats:
+        boat = [-1]
+        while boat[0] == -1:
+            boat_start = randrange(99)
+            boat_direction = randrange(1,4)
+            #print(b,boat_start,boat_direction)
+            boat = check_boat(b,boat_start,boat_direction,taken)
+        ships.append(boat)
+        taken = taken + boat
+        #print(ships)
+        
+    return ships,taken

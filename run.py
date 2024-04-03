@@ -144,6 +144,22 @@ def create_boats(taken,boats):
         
     return ships,taken
 
+#before game
+hit1 = []
+miss1 = []
+comp1 = []
+guesses1 = []  
+missed1 = 0
+
+taken1 = []
+taken2 = []
+hit2 = []
+miss2 = []
+comp2 = []
+guesses2 = []  
+missed2 = 0
+
+
 battleships = [5,4,3,3,2,2]
 # game amount of ships
 #computer creates a board for player 1
@@ -151,3 +167,7 @@ ships1,taken1 = create_boats(taken1,battleships)
 #user creates the board for player 2 - show board
 ships2,taken2 = create_ships(taken2,battleships)
 show_board_c(taken2)
+
+# aware that there's currently some none defined variables.
+# these are based on a guess of what I'll need for the future
+# ready to add or remove if necessary

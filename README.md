@@ -1,32 +1,14 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# BATTLESHIPS by magitnup
 
-Welcome,
+### Magitnups battleship is a Python terminal game, which runs in the Code Institute mock terminal of Heroku. Users will battle against it out against their own PC and for once maybe actually win to vent some frustrations.<br>
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
-
-## Reminders
-
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+### How to play
 
 ---
 
-Happy coding!
+Battleships in general is a classic and very simple pen and paper game.
+This version allows the users to decide where they want to hide their fleet of 6 ships on a 10 times 10 playing field. The Computer will naturally hide its own ships as well.
+
+After hiding the ships, the player will be allowed to shoot first in every round. Which gives the player the advantage in the case of a draw.
+
+Whenever a ship gets hit, it'll will be marked by an "o", the last hit sinking the ship and marking it with "s". In case of a missed shot it will mark the area with "x".

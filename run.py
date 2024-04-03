@@ -120,7 +120,7 @@ def create_boats(taken, boats):
     return ships, taken
 
 def show_board_engine(taken):
-    print("     BATTLESHIPS    ")
+    print("     BATTLESHIPS:   ")
     print("     0  1  2  3  4  5  6  7  8  9")
 
     place = 0
@@ -159,7 +159,7 @@ def show_board(hit, miss, comp):
     """
     shows the board
     """
-    print("     BATTLESHIPS    ")
+    print("     BATTLESHIPS:    ")
     print("     0  1  2  3  4  5  6  7  8  9")
 
     place = 0
@@ -302,23 +302,19 @@ show_board_engine(taken2)
 
 # loop
 for i in range(80):
-    """
-    Players shots on "ENEMY BOARD"
-    """
+# users shots on "ENEMY BOARD"
     guesses1 = hit1 + miss1 + comp1
     shot1 = get_shot(guesses1)
-    ships1, hit1, miss1, comp1,
-    missed1 = check_shot(shot1, ships1, hit1, miss1, comp1)
+    ships1, hit1, miss1, comp1, missed1 = check_shot(shot1, ships1, hit1, miss1, comp1)
     show_board(hit1, miss1, comp1)
 # repeat until ships empty
     if check_if_empty_2(ships1):
         print("End of Game - You Win!", i)
         break
 
-# engines shots "YOUR BOARD"
+# engines shots on "YOUR BOARD"
     shot2, guesses2 = get_shot_engine(guesses2, tactics2)
-    ships2, hit2, miss2, comp2,
-    missed2 = check_shot(shot2, ships2, hit2, miss2, comp2)
+    ships2, hit2, miss2, comp2, missed2 = check_shot(shot2, ships2, hit2, miss2, comp2)
     show_board(hit2, miss2, comp2)
 
     if missed2 == 1:

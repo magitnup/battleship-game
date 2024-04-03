@@ -9,7 +9,9 @@
 # decided on hit, miss, comp (completed) for clearer understanding
 
 def get_shot(guesses):
-     
+    """
+    checks for validity of the given variables and returns if necessary
+    """
     ok = "n"
     while ok == "n":
         try:
@@ -48,7 +50,10 @@ def show_board(hit,miss,comp):
         print(x," ",row)
  
  def check_shot(shot,ships,hit,miss,comp):
-     
+     """
+     Checks if the shot is in the ships and returns the ships, hit, miss, comp, missed
+     starts by checking if missed, because the chance of missing is the highest, followed by hit and completed
+     """
     missed = 0
     for i in range(len(ships)):      
         if shot in ships[i]:

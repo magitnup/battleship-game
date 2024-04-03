@@ -1,3 +1,6 @@
+from random import randrange
+import random
+
 #Plan:
 # 2 boards: one engine board and one player board
 # engine board randomly selects places for ships
@@ -13,34 +16,109 @@
 # realized that I needed tactics for the engine to not only randomly guess every turn
 # credits to my brother for hinting me in the right direction of how
 # * let engine continue guessing near successful hits
-
-from random import randrange
-import random
-
-def get_shot(guesses):
+ 
+def check_ok(boat,taken):
     """
-    checks for validity of the given variables and returns if necessary
+    checks if the ships have a valid length and starting point
+    also decides the rotation of the ship
     """
-    ok = "n"
-    while ok == "n":
-        try:
-            shot = input("please enter your guess")
-            shot = int(shot)
-            if shot < 0 or shot > 99:
-                print("incorrect number, please try again")
-            elif shot in guesses:
-                print("incorrect number, used before")                
-            else:
-                ok = "y"
+    boat.sort()
+    for i in range(len(boat)):
+        num = boat[i]
+        if num in taken:
+            boat = [-1]
+            break           
+        elif num < 0 or num > 99:
+            boat = [-1]
+            break
+        elif num % 10 == 9 and i < len(boat)-1:
+            if boat[i+1] % 10 == 0:
+                boat = [-1]
                 break
-        except:
-            print("incorrect entry - please enter again")
-             
-    return shot
+        if i != 0:
+            if boat[i] != boat[i-1]+1 and boat[i] != boat[i-1]+10:
+                boat = [-1]
+                break
+            
+    return boat
+
+ 
+def get_ship(long,taken):
+    """
+    so the player can choose where to put his fleet
+    also prevents the stacking of ships on the same field
+    """
+    ok = True
+    while ok:      
+        ship = []
+        #ask the user to enter numbers
+        print("enter your ship of length ",long)
+        for i in range(long):
+            boat_num = input("please enter a number")
+            ship.append(int(boat_num))       
+        ship = check_ok(ship,taken)
+        if ship[0] != -1:
+            taken = taken + ship
+            break
+        else:
+           print("error - please try again")
+           
+    return ship,taken
 
 
+def create_ships(taken,boats):
+    # create a list of ships
+    ships = []     
+    for boat in boats:
+        ship,taken = get_ship(boat,taken)
+        ships.append(ship)
+        
+    return ships,taken
+
+ 
+def check_boat(b,start,dirn,taken):
+    """
+    checks if the boat is in the board and returns to boat
+    """
+    boat = []
+    if dirn == 1:
+        for i in range(b):
+            boat.append(start - i*10)
+    elif dirn == 2:
+        for i in range(b):
+            boat.append(start + i)
+    elif dirn == 3:
+        for i in range(b):
+            boat.append(start + i*10)
+    elif dirn == 4:
+        for i in range(b):
+            boat.append(start - i)
+    boat = check_ok(boat,taken)           
+    return boat
+
+ 
+def create_boats(taken,boats):
+    """
+    creates a list of boats
+    starting with position (anywhere from 00 to 99)
+    to length and direction 0-4 for a 5 field ship and 0-1 for a 2 field ship
+    planning for 6 boats per fleet/player/engine
+    2 big ones 4 & 5 and 4 smaller ones with 3 & 2 twice each
+    """
+    ships = []
+    for b in boats:
+        boat = [-1]
+        while boat[0] == -1:
+            boat_start = randrange(99)
+            boat_direction = randrange(1,4)
+            boat = check_boat(b,boat_start,boat_direction,taken)
+        ships.append(boat)
+        taken = taken + boat
+        
+    return ships,taken
+ 
 def show_board_engine(taken):
-    print("            battleships    ")
+    print("     BATTLESHIPS ENEMY BOARD    ")
     print("     0  1  2  3  4  5  6  7  8  9")
  
     place = 0
@@ -52,14 +130,36 @@ def show_board_engine(taken):
                 ch = " o "  
             row = row + ch
             place = place + 1
-             
+            
         print(x," ",row)
 
 
+def get_shot_engine(guesses,tactics):
+    # forgot to bring this over from the testing grounds 
+    ok = "n"
+    while ok == "n":
+        try:
+            if len(tactics) > 0:
+                shot = tactics[0]
+            else:
+                shot = randrange(99)
+            if shot not in guesses:
+                ok = "y"
+                guesses.append(shot)
+                break
+        except:
+            print("incorrect entry - please enter again")
+            
+    return shot,guesses
+
+
 def show_board(hit,miss,comp):
-    print("            battleships    ")
+    """
+    shows the board
+    """
+    print("     BATTLESHIPS YOUR BOARD    ")
     print("     0  1  2  3  4  5  6  7  8  9")
- 
+    
     place = 0
     for x in range(10):
         row = ""
@@ -70,12 +170,12 @@ def show_board(hit,miss,comp):
             elif place in hit:
                 ch = " o "
             elif place in comp:
-                ch = " O "  
+                ch = " s "  
             row = row + ch
             place = place + 1
-             
+            
         print(x," ",row)
-        
+
 
 def check_shot(shot,ships,hit,miss,comp):
     """
@@ -94,10 +194,10 @@ def check_shot(shot,ships,hit,miss,comp):
                 missed = 2                             
     if missed == 0:
         miss.append(shot)
-                 
+        
     return ships,hit,miss,comp,missed
 
-
+ 
 def calc_tactics(shot,tactics,guesses,hit):
     """
     calculates the tactics for the given shot of the engine
@@ -141,109 +241,33 @@ def calc_tactics(shot,tactics,guesses,hit):
      
     return impossible
 
-
-def check_ok(boat,taken):
-    """
-    checks if the ships have a valid length and starting point
-    also decides the rotation of the ship
-    """
-    boat.sort()
-    for i in range(len(boat)):
-        num = boat[i]
-        if num in taken:
-            boat = [-1]
-            break           
-        elif num < 0 or num > 99:
-            boat = [-1]
-            break
-        elif num % 10 == 9 and i < len(boat)-1:
-            if boat[i+1] % 10 == 0:
-                boat = [-1]
-                break
-        if i != 0:
-            if boat[i] != boat[i-1]+1 and boat[i] != boat[i-1]+10:
-                boat = [-1]
-                break
  
-    return boat
-
-
-def check_boat(b,start,dirn,taken):
+def get_shot(guesses):
     """
-    checks if the boat is in the board and returns to boat
+    checks for validity of the given variables and returns if necessary
     """
-    boat = []
-    if dirn == 1:
-        for i in range(b):
-            boat.append(start - i*10)
-    elif dirn == 2:
-        for i in range(b):
-            boat.append(start + i)
-    elif dirn == 3:
-        for i in range(b):
-            boat.append(start + i*10)
-    elif dirn == 4:
-        for i in range(b):
-            boat.append(start - i)
-    boat = check_ok(boat,taken)           
-    return boat
+    ok = "n"
+    while ok == "n":
+        try:
+            shot = input("please enter your guess")
+            shot = int(shot)
+            if shot < 0 or shot > 99:
+                print("incorrect number, please try again")
+            elif shot in guesses:
+                print("incorrect number, used before")                
+            else:
+                ok = "y"
+                break
+        except:
+            print("incorrect entry - please enter again")
+             
+    return shot
 
-
-def create_boats(taken,boats):
-    """
-    creates a list of boats
-    starting with position (anywhere from 00 to 99)
-    to length and direction 0-4 for a 5 field ship and 0-1 for a 2 field ship
-    planning for 6 boats per fleet/player/engine
-    2 big ones 4 & 5 and 4 smaller ones with 3 & 2 twice each
-    """
-    ships = []
-    for b in boats:
-        boat = [-1]
-        while boat[0] == -1:
-            boat_start = randrange(99)
-            boat_direction = randrange(1,4)
-            boat = check_boat(b,boat_start,boat_direction,taken)
-        ships.append(boat)
-        taken = taken + boat
-        
-    return ships,taken
-
-
-def get_ship(long,taken):
-    """
-    so the player can choose where to put his fleet
-    also prevents the stacking of ships on the same field
-    """
  
-    ok = True
-    while ok:      
-        ship = []
-        #ask the user to enter numbers
-        print("enter your ship of length ",long)
-        for i in range(long):
-            boat_num = input("please enter a number")
-            ship.append(int(boat_num))       
-        ship = check_ok(ship,taken)
-        if ship[0] != -1:
-            taken = taken + ship
-            break
-        else:
-           print("error - please try again") 
-         
-    return ship,taken
+def check_if_empty_2(list_of_lists):
+    return all([not elem for elem in list_of_lists ])
 
-
-def create_ships(taken,boats):
-    # create a list of ships
-    ships = []     
-    for boat in boats:
-        ship,taken = get_ship(boat,taken)
-        ships.append(ship)
-         
-    return ships,taken
-
-
+ 
 #before game
 hit1 = []
 miss1 = []
@@ -252,7 +276,7 @@ guesses1 = []
 missed1 = 0
 tactics1 = []
 taken1 = []
-
+# separate the two boards a bit
 hit2 = []
 miss2 = []
 comp2 = []
@@ -260,8 +284,7 @@ guesses2 = []
 missed2 = 0
 tactics2 = []
 taken2 = []
-
-
+ 
 battleships = [5,4,3,3,2,2]
 # amount of ships on the field
 # computer creates a board for player 1
@@ -270,10 +293,31 @@ ships1,taken1 = create_boats(taken1,battleships)
 ships2,taken2 = create_ships(taken2,battleships)
 show_board_engine(taken2)
 
-# game settings
-
-# ships on the field
-
-# board creation
-
-# loops
+#loop
+for i in range(80):
+ 
+#player shoots
+    guesses1 = hit1 + miss1 + comp1
+    shot1 = get_shot(guesses1)
+    ships1,hit1,miss1,comp1,missed1 = check_shot(shot1,ships1,hit1,miss1,comp1)
+    show_board(hit1,miss1,comp1)
+#repeat until ships empty
+    if check_if_empty_2(ships1):
+        print("End of Game - You Win!",i)
+        break   
+#computer shoots
+   
+    shot2,guesses2 = get_shot_engine(guesses2,tactics2)
+    ships2,hit2,miss2,comp2,missed2 = check_shot(shot2,ships2,hit2,miss2,comp2)
+    show_board(hit2,miss2,comp2)
+     
+    if missed2 == 1:
+        tactics2 = calc_tactics(shot2,tactics2,guesses2,hit2)
+    elif missed2 == 2:
+        tactics2 = []
+    elif len(tactics2) > 0:
+        tactics2.pop(0)
+ 
+    if check_if_empty_2(ships2):
+        print("End of game - You Lose",i)
+        break

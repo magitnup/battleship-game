@@ -30,4 +30,6 @@ Whenever a ship gets hit, it'll will be marked by an "o", the last hit sinking t
   - You cannot enter coordinates outside of the grid
   - You cannot use the same coordinates twice
   - You must enter a number
--
+- Notification of sunken ship via "s"
+
+  ![sunken ship](sinking_enemy_ship.png)

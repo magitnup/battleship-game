@@ -212,7 +212,7 @@ miss1 = []
 comp1 = []
 guesses1 = []  
 missed1 = 0
-
+tactics1 = []
 taken1 = []
 taken2 = []
 hit2 = []
@@ -220,6 +220,7 @@ miss2 = []
 comp2 = []
 guesses2 = []  
 missed2 = 0
+tactics2 = []
 
 
 battleships = [5,4,3,3,2,2]

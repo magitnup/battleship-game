@@ -120,7 +120,7 @@ def create_boats(taken, boats):
     return ships, taken
 
 def show_board_engine(taken):
-    print("     BATTLESHIPS ENEMY BOARD    ")
+    print("     BATTLESHIPS YOUR BOARD    ")
     print("     0  1  2  3  4  5  6  7  8  9")
 
     place = 0
@@ -159,7 +159,7 @@ def show_board(hit, miss, comp):
     """
     shows the board
     """
-    print("     BATTLESHIPS YOUR BOARD    ")
+    print("     BATTLESHIPS ENEMY BOARD    ")
     print("     0  1  2  3  4  5  6  7  8  9")
 
     place = 0

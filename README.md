@@ -12,3 +12,22 @@ This version allows the users to decide where they want to hide their fleet of 6
 After hiding the ships, the player will be allowed to shoot first in every round. Which gives the player the advantage in the case of a draw.
 
 Whenever a ship gets hit, it'll will be marked by an "o", the last hit sinking the ship and marking it with "s". In case of a missed shot it will mark the area with "x".
+
+## Features
+
+### Existing features
+
+- Random board generation on the side of the PC
+- The user can't see the PC's ships until hit
+- User can position the ships themselves
+
+  ![Custom ship positioning](input_ship_position.png)
+
+- Play against computer
+- Accepts user input
+
+- Input validation and error-checking
+  - You cannot enter coordinates outside of the grid
+  - You cannot use the same coordinates twice
+  - You must enter a number
+-

@@ -54,16 +54,16 @@ def get_ship(long, taken):
     while ok:
         ship = []
         # ask the user to enter numbers
-        print("enter your ship of length ", long)
+        print("Enter your ship of length ", long)
         for i in range(long):
-            boat_num = input("please enter a number\n")
+            boat_num = input("Please enter a number\n")
             ship.append(int(boat_num))
         ship = check_ok(ship, taken)
         if ship[0] != -1:
             taken = taken + ship
             break
         else:
-            print("error - please try again")
+            print("Error - Please try again")
 
     return ship, taken
 
@@ -150,7 +150,7 @@ def get_shot_engine(guesses, tactics):
                 guesses.append(shot)
                 break
         except:
-            print("incorrect entry - please enter again")
+            print("Invalid entry - Please try again")
 
     return shot, guesses
 
@@ -256,17 +256,17 @@ def get_shot(guesses):
     ok = "n"
     while ok == "n":
         try:
-            shot = input("please enter your guess\n")
+            shot = input("Please enter your guess\n")
             shot = int(shot)
             if shot < 0 or shot > 99:
-                print("incorrect number, please try again")
+                print("Invalid number, please try again")
             elif shot in guesses:
-                print("incorrect number, used before")
+                print("Invalid number, used before")
             else:
                 ok = "y"
                 break
         except:
-            print("incorrect entry - please enter again")
+            print("Invalid entry - please try again")
 
     return shot
 

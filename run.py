@@ -7,6 +7,9 @@
 # smart guesses on the  side after a ship is found
 # boards are 10x10 -> input 33 = row 3 column 3 starting with 0 - 9 for each
 # decided on hit, miss, comp (completed) for clearer understanding
+# ships ... boats... ye...
+# taken = so boats don't share the same fields on the board
+#will add 1 or 2 to the different variables as to differentiate between board 1 and board 2
 
 from random import randrange
 import random
@@ -73,7 +76,30 @@ def check_shot(shot,ships,hit,miss,comp):
                  
     return ships,hit,miss,comp,missed
 
-
+def check_ok(boat,taken):
+    """
+    checks if the ships have a valid length and starting point
+    also decides the rotation of the ship
+    """
+    boat.sort()
+    for i in range(len(boat)):
+        num = boat[i]
+        if num in taken:
+            boat = [-1]
+            break           
+        elif num < 0 or num > 99:
+            boat = [-1]
+            break
+        elif num % 10 == 9 and i < len(boat)-1:
+            if boat[i+1] % 10 == 0:
+                boat = [-1]
+                break
+        if i != 0:
+            if boat[i] != boat[i-1]+1 and boat[i] != boat[i-1]+10:
+                boat = [-1]
+                break
+ 
+    return boat
 
 def check_boat(b,start,dirn,taken):
     """
@@ -117,3 +143,11 @@ def create_boats(taken,boats):
         #print(ships)
         
     return ships,taken
+
+battleships = [5,4,3,3,2,2]
+# game amount of ships
+#computer creates a board for player 1
+ships1,taken1 = create_boats(taken1,battleships)
+#user creates the board for player 2 - show board
+ships2,taken2 = create_ships(taken2,battleships)
+show_board_c(taken2)

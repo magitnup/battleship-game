@@ -38,6 +38,7 @@ def get_shot(guesses):
              
     return shot
 
+
 def show_board_engine(taken):
     print("            battleships    ")
     print("     0  1  2  3  4  5  6  7  8  9")
@@ -53,6 +54,7 @@ def show_board_engine(taken):
             place = place + 1
              
         print(x," ",row)
+
 
 def show_board(hit,miss,comp):
     print("            battleships    ")
@@ -94,6 +96,7 @@ def check_shot(shot,ships,hit,miss,comp):
         miss.append(shot)
                  
     return ships,hit,miss,comp,missed
+
 
 def calc_tactics(shot,tactics,guesses,hit):
     """
@@ -138,6 +141,7 @@ def calc_tactics(shot,tactics,guesses,hit):
      
     return cand
 
+
 def check_ok(boat,taken):
     """
     checks if the ships have a valid length and starting point
@@ -163,6 +167,7 @@ def check_ok(boat,taken):
  
     return boat
 
+
 def check_boat(b,start,dirn,taken):
     """
     checks if the boat is in the board and returns to boat
@@ -181,7 +186,8 @@ def check_boat(b,start,dirn,taken):
         for i in range(b):
             boat.append(start - i)
     boat = check_ok(boat,taken)           
-    return boat 
+    return boat
+
 
 def create_boats(taken,boats):
     """
@@ -206,6 +212,44 @@ def create_boats(taken,boats):
         
     return ships,taken
 
+
+def get_ship(long,taken):
+    """
+    so the player can choose where to put his fleet
+    also prevents the stacking of ships on the same field
+    """
+ 
+    ok = True
+    while ok:      
+        ship = []
+        #ask the user to enter numbers
+        print("enter your ship of length ",long)
+        for i in range(long):
+            boat_num = input("please enter a number")
+            ship.append(int(boat_num))       
+        #check that ship
+        ship = check_ok(ship,taken)
+        if ship[0] != -1:
+            taken = taken + ship
+            break
+        else:
+           print("error - please try again") 
+         
+    return ship,taken
+
+
+def create_ships(taken,boats):
+    # create a list of ships
+    ships = []
+    #boats = [5,4,3,3,2,2]
+     
+    for boat in boats:
+        ship,taken = get_ship(boat,taken)
+        ships.append(ship)
+         
+    return ships,taken
+
+
 #before game
 hit1 = []
 miss1 = []
@@ -224,13 +268,10 @@ tactics2 = []
 
 
 battleships = [5,4,3,3,2,2]
-# game amount of ships
-#computer creates a board for player 1
+# amount of ships on the field
+# computer creates a board for player 1
 ships1,taken1 = create_boats(taken1,battleships)
-#user creates the board for player 2 - show board
+# user creates the board for player 2 - show board
 ships2,taken2 = create_ships(taken2,battleships)
 show_board_c(taken2)
 
-# aware that there's currently some none defined variables.
-# these are based on a guess of what I'll need for the future
-# ready to add or remove if necessary

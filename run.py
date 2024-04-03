@@ -6,6 +6,7 @@
 # no repeat guesses, no out of bounds guesses
 # smart guesses on the  side after a ship is found
 # boards are 10x10 -> input 33 = row 3 column 3 starting with 0 - 9 for each
+# decided on hit, miss, comp (completed) for clearer understanding
 
 def get_shot(guesses):
      
@@ -46,3 +47,19 @@ def show_board(hit,miss,comp):
              
         print(x," ",row)
  
+ def check_shot(shot,ships,hit,miss,comp):
+     
+    missed = 0
+    for i in range(len(ships)):      
+        if shot in ships[i]:
+            ships[i].remove(shot)
+            if len(ships[i]) > 0:
+                hit.append(shot)
+                missed = 1
+            else:
+                comp.append(shot)
+                missed = 2                             
+    if missed == 0:
+        miss.append(shot)
+                 
+    return ships,hit,miss,comp,missed

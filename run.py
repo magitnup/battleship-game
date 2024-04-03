@@ -75,6 +75,26 @@ def check_shot(shot,ships,hit,miss,comp):
 
 
 
+def check_boat(b,start,dirn,taken):
+    """
+    checks if the boat is in the board and returns to boat
+    """
+    boat = []
+    if dirn == 1:
+        for i in range(b):
+            boat.append(start - i*10)
+    elif dirn == 2:
+        for i in range(b):
+            boat.append(start + i)
+    elif dirn == 3:
+        for i in range(b):
+            boat.append(start + i*10)
+    elif dirn == 4:
+        for i in range(b):
+            boat.append(start - i)
+    boat = check_ok(boat,taken)           
+    return boat 
+
 def create_boats(taken,boats):
     """
     creates a list of boats

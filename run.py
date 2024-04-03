@@ -102,7 +102,7 @@ def calc_tactics(shot,tactics,guesses,hit):
     """
     calculates the tactics for the given shot of the engine
     """
-    # Credits to my brother for explaining to me how it's done, he's probably my best teacher
+    # credits to my brother for explaining to me how it's done, he's probably my best teacher
     # would have to revisit the course to see if I can figure this out in a better way (but time troubles)
     temp = []
     if len(tactics) < 1:
@@ -121,7 +121,7 @@ def calc_tactics(shot,tactics,guesses,hit):
                     temp.append(shot+num) 
                     break
         if shot-10 in hit:
-            temp = [shot+10]
+            temp = [shot+10] # full credit to my brother for the "20, 30, 40, ..." part
             for num in [20,30,40,50,60,70,80]:
                 if shot-num not in hit:
                     temp.append(shot-num) 
@@ -132,14 +132,14 @@ def calc_tactics(shot,tactics,guesses,hit):
                 if shot+num not in hit:
                     temp.append(shot+num) 
                     break
-    #tactics longer
-    cand =[]
+
+    impossible =[]
     for i in range(len(temp)):
         if temp[i] not in guesses and temp[i] < 100 and temp[i] > -1:
-            cand.append(temp[i])
-    random.shuffle(cand)
+            impossible.append(temp[i])
+    random.shuffle(impossible)
      
-    return cand
+    return impossible
 
 
 def check_ok(boat,taken):
@@ -198,17 +198,14 @@ def create_boats(taken,boats):
     2 big ones 4 & 5 and 4 smaller ones with 3 & 2 twice each
     """
     ships = []
-    #battleships = [5,4,3,3,2,2]
     for b in boats:
         boat = [-1]
         while boat[0] == -1:
             boat_start = randrange(99)
             boat_direction = randrange(1,4)
-            #print(b,boat_start,boat_direction)
             boat = check_boat(b,boat_start,boat_direction,taken)
         ships.append(boat)
         taken = taken + boat
-        #print(ships)
         
     return ships,taken
 
@@ -227,7 +224,6 @@ def get_ship(long,taken):
         for i in range(long):
             boat_num = input("please enter a number")
             ship.append(int(boat_num))       
-        #check that ship
         ship = check_ok(ship,taken)
         if ship[0] != -1:
             taken = taken + ship
@@ -240,9 +236,7 @@ def get_ship(long,taken):
 
 def create_ships(taken,boats):
     # create a list of ships
-    ships = []
-    #boats = [5,4,3,3,2,2]
-     
+    ships = []     
     for boat in boats:
         ship,taken = get_ship(boat,taken)
         ships.append(ship)
@@ -258,13 +252,14 @@ guesses1 = []
 missed1 = 0
 tactics1 = []
 taken1 = []
-taken2 = []
+
 hit2 = []
 miss2 = []
 comp2 = []
 guesses2 = []  
 missed2 = 0
 tactics2 = []
+taken2 = []
 
 
 battleships = [5,4,3,3,2,2]
@@ -275,3 +270,10 @@ ships1,taken1 = create_boats(taken1,battleships)
 ships2,taken2 = create_ships(taken2,battleships)
 show_board_c(taken2)
 
+# game settings
+
+# ships on the field
+
+# board creation
+
+# loops
